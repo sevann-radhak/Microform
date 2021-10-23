@@ -30,6 +30,11 @@ namespace Microform.Functions.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(MicroformContext).Assembly);
+
+            //modelBuilder
+            //    .Entity<ApplicationRequestEntity>()
+            //    .HasOne(p => p.ApplicationInfo)
+            //    .WithMany(b => b.ApplicationRequests);
         }
     }
 }

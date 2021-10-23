@@ -1,12 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Microform.Functions.Data.Entities
 {
-    public class ApplicationLanguageEntity
+    public class ApplicationPayerInfoEntity
     {
         public int Id { get; set; }
-        public bool IsActive { get; set; }
-        public string Language { get; set; }
+        public DateTime CreatedTime { get; set; }
+
+        //TODO:
+        // complete entity
 
         public virtual ICollection<ApplicationRequestEntity> ApplicationRequests { get; set; }
     }

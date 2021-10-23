@@ -4,14 +4,16 @@ using Microform.Functions.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Microform.Functions.Migrations
 {
     [DbContext(typeof(MicroformContext))]
-    partial class MicroformContextModelSnapshot : ModelSnapshot
+    [Migration("20211023194453_entities12")]
+    partial class entities12
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -98,7 +100,7 @@ namespace Microform.Functions.Migrations
                     b.Property<DateTime>("CreatedUtcTime")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2021, 10, 23, 19, 48, 49, 500, DateTimeKind.Utc).AddTicks(4359));
+                        .HasDefaultValue(new DateTime(2021, 10, 23, 19, 44, 53, 294, DateTimeKind.Utc).AddTicks(3002));
 
                     b.Property<int>("LanguageId")
                         .HasColumnType("int");
@@ -139,7 +141,7 @@ namespace Microform.Functions.Migrations
 
                     b.HasIndex("LocationId");
 
-                    b.ToTable("ApplicationRequest");
+                    b.ToTable("ApplicationRequestEntity");
                 });
 
             modelBuilder.Entity("Microform.Functions.Data.Entities.ApplicationRequestStatusEntity", b =>

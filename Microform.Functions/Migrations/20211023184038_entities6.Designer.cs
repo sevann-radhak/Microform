@@ -4,14 +4,16 @@ using Microform.Functions.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Microform.Functions.Migrations
 {
     [DbContext(typeof(MicroformContext))]
-    partial class MicroformContextModelSnapshot : ModelSnapshot
+    [Migration("20211023184038_entities6")]
+    partial class entities6
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -89,21 +91,19 @@ namespace Microform.Functions.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("ApplicationInfoId")
+                    b.Property<int?>("ApplicationInfoId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ApplicationPayerInfoId")
+                    b.Property<int?>("ApplicationPayerInfoId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedUtcTime")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2021, 10, 23, 19, 48, 49, 500, DateTimeKind.Utc).AddTicks(4359));
+                        .HasColumnType("datetime2");
 
-                    b.Property<int>("LanguageId")
+                    b.Property<int?>("LanguageId")
                         .HasColumnType("int");
 
-                    b.Property<int>("LocationId")
+                    b.Property<int?>("LocationId")
                         .HasColumnType("int");
 
                     b.Property<string>("MerchantId")
@@ -139,7 +139,7 @@ namespace Microform.Functions.Migrations
 
                     b.HasIndex("LocationId");
 
-                    b.ToTable("ApplicationRequest");
+                    b.ToTable("ApplicationRequestEntity");
                 });
 
             modelBuilder.Entity("Microform.Functions.Data.Entities.ApplicationRequestStatusEntity", b =>
@@ -278,40 +278,6 @@ namespace Microform.Functions.Migrations
                     b.ToTable("MerchantInfoEntity");
                 });
 
-            modelBuilder.Entity("Microform.Functions.Data.Entities.PaymentRequestEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("ApplicationRequestId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreatedUtcTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("InstrumentIdentifierTokenId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PaymentInstrumentTokenId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("PaymentRequestTypeId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ShippingAddressTokenId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ApplicationRequestId");
-
-                    b.HasIndex("PaymentRequestTypeId");
-
-                    b.ToTable("PaymentRequestEntity");
-                });
-
             modelBuilder.Entity("Microform.Functions.Data.Entities.PaymentRequestStatusEntity", b =>
                 {
                     b.Property<int>("Id")
@@ -356,42 +322,19 @@ namespace Microform.Functions.Migrations
                 {
                     b.HasOne("Microform.Functions.Data.Entities.ApplicationInfoEntity", "ApplicationInfo")
                         .WithMany("ApplicationRequests")
-                        .HasForeignKey("ApplicationInfoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ApplicationInfoId");
 
                     b.HasOne("Microform.Functions.Data.Entities.ApplicationPayerInfoEntity", "ApplicationPayerInfo")
                         .WithMany("ApplicationRequests")
-                        .HasForeignKey("ApplicationPayerInfoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ApplicationPayerInfoId");
 
                     b.HasOne("Microform.Functions.Data.Entities.ApplicationLanguageEntity", "Language")
                         .WithMany("ApplicationRequests")
-                        .HasForeignKey("LanguageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("LanguageId");
 
                     b.HasOne("Microform.Functions.Data.Entities.LocationInfoEntity", "Location")
                         .WithMany("ApplicationRequests")
-                        .HasForeignKey("LocationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Microform.Functions.Data.Entities.PaymentRequestEntity", b =>
-                {
-                    b.HasOne("Microform.Functions.Data.Entities.ApplicationRequestEntity", "ApplicationRequest")
-                        .WithMany()
-                        .HasForeignKey("ApplicationRequestId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Microform.Functions.Data.Entities.PaymentRequestTypeEntity", "PaymentRequestType")
-                        .WithMany()
-                        .HasForeignKey("PaymentRequestTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("LocationId");
                 });
 #pragma warning restore 612, 618
         }

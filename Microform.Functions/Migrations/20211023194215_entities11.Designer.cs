@@ -4,14 +4,16 @@ using Microform.Functions.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Microform.Functions.Migrations
 {
     [DbContext(typeof(MicroformContext))]
-    partial class MicroformContextModelSnapshot : ModelSnapshot
+    [Migration("20211023194215_entities11")]
+    partial class entities11
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -89,6 +91,9 @@ namespace Microform.Functions.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("ApplicationInfoEntityId")
+                        .HasColumnType("int");
+
                     b.Property<int>("ApplicationInfoId")
                         .HasColumnType("int");
 
@@ -98,7 +103,7 @@ namespace Microform.Functions.Migrations
                     b.Property<DateTime>("CreatedUtcTime")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2021, 10, 23, 19, 48, 49, 500, DateTimeKind.Utc).AddTicks(4359));
+                        .HasDefaultValue(new DateTime(2021, 10, 23, 19, 42, 15, 50, DateTimeKind.Utc).AddTicks(1152));
 
                     b.Property<int>("LanguageId")
                         .HasColumnType("int");
@@ -131,6 +136,8 @@ namespace Microform.Functions.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ApplicationInfoEntityId");
+
                     b.HasIndex("ApplicationInfoId");
 
                     b.HasIndex("ApplicationPayerInfoId");
@@ -139,7 +146,7 @@ namespace Microform.Functions.Migrations
 
                     b.HasIndex("LocationId");
 
-                    b.ToTable("ApplicationRequest");
+                    b.ToTable("ApplicationRequestEntity");
                 });
 
             modelBuilder.Entity("Microform.Functions.Data.Entities.ApplicationRequestStatusEntity", b =>
@@ -354,8 +361,12 @@ namespace Microform.Functions.Migrations
 
             modelBuilder.Entity("Microform.Functions.Data.Entities.ApplicationRequestEntity", b =>
                 {
-                    b.HasOne("Microform.Functions.Data.Entities.ApplicationInfoEntity", "ApplicationInfo")
+                    b.HasOne("Microform.Functions.Data.Entities.ApplicationInfoEntity", null)
                         .WithMany("ApplicationRequests")
+                        .HasForeignKey("ApplicationInfoEntityId");
+
+                    b.HasOne("Microform.Functions.Data.Entities.ApplicationInfoEntity", "ApplicationInfo")
+                        .WithMany()
                         .HasForeignKey("ApplicationInfoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
