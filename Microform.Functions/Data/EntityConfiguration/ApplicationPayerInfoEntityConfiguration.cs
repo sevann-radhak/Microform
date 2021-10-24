@@ -8,6 +8,8 @@ namespace Microform.Functions.Data.EntityConfiguration
     {
         public void Configure(EntityTypeBuilder<ApplicationPayerInfoEntity> builder)
         {
+            builder.ToTable("ApplicationPayerInfo");
+
             builder.HasKey(x => x.Id);
         }
     }

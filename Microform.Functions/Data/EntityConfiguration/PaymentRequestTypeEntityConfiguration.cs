@@ -8,6 +8,8 @@ namespace Microform.Functions.Data.EntityConfiguration
     {
         public void Configure(EntityTypeBuilder<PaymentRequestTypeEntity> builder)
         {
+            builder.ToTable("PaymentRequestType");
+
             builder.HasKey(x => x.Id);
             builder.Property(x => x.RequestType).HasMaxLength(100).IsRequired();
         }

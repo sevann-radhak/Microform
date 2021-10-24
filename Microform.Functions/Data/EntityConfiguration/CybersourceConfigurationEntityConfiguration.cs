@@ -8,6 +8,8 @@ namespace Microform.Functions.Data.EntityConfiguration
     {
         public void Configure(EntityTypeBuilder<CybersourceConfigurationEntity> builder)
         {
+            builder.ToTable("CybersourceConfiguration");
+
             builder.HasKey(x => x.Id);
             builder.Property(x => x.AuthenticationType).IsRequired();
             builder.Property(x => x.EnableLog).IsRequired();

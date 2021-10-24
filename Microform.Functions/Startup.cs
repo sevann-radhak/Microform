@@ -16,9 +16,9 @@ namespace Microform.Functions
         {
             builder.Services.AddDbContext<MicroformContext>(
                 options => options
-                .UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=MicroformDataBase;Trusted_Connection=True;MultipleActiveResultSets=true"));
-                //.UseSqlServer(Environment.GetEnvironmentVariable(MicroformConstants.SQL_CONNECTION_STRING, EnvironmentVariableTarget.Process)));
-            
+                //.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=MicroformDataBase;Trusted_Connection=True;MultipleActiveResultSets=true"));
+                .UseSqlServer(Environment.GetEnvironmentVariable(MicroformConstants.SQL_CONNECTION_STRING, EnvironmentVariableTarget.Process)));
+
             //string key = Environment.GetEnvironmentVariable("AccessCodeTokenKey", EnvironmentVariableTarget.Process);
             //builder.Services.AddSingleton<IJwtAuthenticationService>(new JwtAuthenticationService(key));
             //builder.Services.AddSingleton<IApplicationLogsService>(new ApplicationLogsService());

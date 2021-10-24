@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Microform.Functions.Migrations
 {
     [DbContext(typeof(MicroformContext))]
-    [Migration("20211023183706_entities1")]
-    partial class entities1
+    [Migration("20211024011245_FirstMigration2")]
+    partial class FirstMigration2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -46,7 +46,7 @@ namespace Microform.Functions.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ApplicationInfoEntity");
+                    b.ToTable("ApplicationInfo");
                 });
 
             modelBuilder.Entity("Microform.Functions.Data.Entities.ApplicationLanguageEntity", b =>
@@ -66,7 +66,7 @@ namespace Microform.Functions.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ApplicationLanguageEntity");
+                    b.ToTable("ApplicationLanguage");
                 });
 
             modelBuilder.Entity("Microform.Functions.Data.Entities.ApplicationPayerInfoEntity", b =>
@@ -76,12 +76,56 @@ namespace Microform.Functions.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("CreatedTime")
+                    b.Property<DateTime>("CreatedUtcTime")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
-                    b.ToTable("ApplicationPayerInfoEntity");
+                    b.ToTable("ApplicationPayerInfo");
+                });
+
+            modelBuilder.Entity("Microform.Functions.Data.Entities.ApplicationPayerTokenEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ApplicationPayerInfoId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedUtcTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("InstrumentIdentifierTokenId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDefault")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("PaymentInstrumentTokenId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("ShippingAddressTokenId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
+                    b.Property<DateTime?>("UpdatedUtcTime")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationPayerInfoId");
+
+                    b.ToTable("ApplicationPayerToken");
                 });
 
             modelBuilder.Entity("Microform.Functions.Data.Entities.ApplicationRequestEntity", b =>
@@ -91,19 +135,21 @@ namespace Microform.Functions.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("ApplicationInfoEntityId")
+                    b.Property<int>("ApplicationInfoId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ApplicationLanguageEntityId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ApplicationPayerInfoId")
+                    b.Property<int>("ApplicationPayerInfoId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedUtcTime")
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(2021, 10, 24, 1, 12, 44, 681, DateTimeKind.Utc).AddTicks(2100));
 
-                    b.Property<int?>("LocationInfoEntityId")
+                    b.Property<int>("LanguageId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("LocationId")
                         .HasColumnType("int");
 
                     b.Property<string>("MerchantId")
@@ -131,15 +177,49 @@ namespace Microform.Functions.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ApplicationInfoEntityId");
-
-                    b.HasIndex("ApplicationLanguageEntityId");
+                    b.HasIndex("ApplicationInfoId");
 
                     b.HasIndex("ApplicationPayerInfoId");
 
-                    b.HasIndex("LocationInfoEntityId");
+                    b.HasIndex("LanguageId");
 
-                    b.ToTable("ApplicationRequestEntity");
+                    b.HasIndex("LocationId");
+
+                    b.ToTable("ApplicationRequest");
+                });
+
+            modelBuilder.Entity("Microform.Functions.Data.Entities.ApplicationRequestResultEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ApplicationRequestId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ApplicationRequestStatusId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedUtcTime")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(2021, 10, 24, 1, 12, 44, 689, DateTimeKind.Utc).AddTicks(5370));
+
+                    b.Property<int>("ReturnDesicion")
+                        .HasColumnType("int")
+                        .HasMaxLength(1000);
+
+                    b.Property<int>("StatusId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationRequestId");
+
+                    b.HasIndex("ApplicationRequestStatusId");
+
+                    b.ToTable("ApplicationRequestResult");
                 });
 
             modelBuilder.Entity("Microform.Functions.Data.Entities.ApplicationRequestStatusEntity", b =>
@@ -159,7 +239,7 @@ namespace Microform.Functions.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ApplicationRequestStatusEntity");
+                    b.ToTable("ApplicationRequestStatus");
                 });
 
             modelBuilder.Entity("Microform.Functions.Data.Entities.CybersourceConfigurationEntity", b =>
@@ -211,7 +291,7 @@ namespace Microform.Functions.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CybersourceConfigurationEntity");
+                    b.ToTable("CybersourceConfiguration");
                 });
 
             modelBuilder.Entity("Microform.Functions.Data.Entities.LocationInfoEntity", b =>
@@ -243,7 +323,7 @@ namespace Microform.Functions.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("LocationInfoEntity");
+                    b.ToTable("LocationInfo");
                 });
 
             modelBuilder.Entity("Microform.Functions.Data.Entities.MerchantInfoEntity", b =>
@@ -275,7 +355,73 @@ namespace Microform.Functions.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("MerchantInfoEntity");
+                    b.ToTable("MerchantInfo");
+                });
+
+            modelBuilder.Entity("Microform.Functions.Data.Entities.PaymentRequestEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ApplicationRequestId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedUtcTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("InstrumentIdentifierTokenId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PaymentInstrumentTokenId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PaymentRequestTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ShippingAddressTokenId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationRequestId");
+
+                    b.HasIndex("PaymentRequestTypeId");
+
+                    b.ToTable("PaymentRequest");
+                });
+
+            modelBuilder.Entity("Microform.Functions.Data.Entities.PaymentRequestResultEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreatedUtcTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("PaymentRequestId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("PaymentRequestStatusId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ResultId")
+                        .HasColumnType("nvarchar(1000)")
+                        .HasMaxLength(1000);
+
+                    b.Property<int>("StatusId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PaymentRequestId");
+
+                    b.HasIndex("PaymentRequestStatusId");
+
+                    b.ToTable("PaymentRequestResult");
                 });
 
             modelBuilder.Entity("Microform.Functions.Data.Entities.PaymentRequestStatusEntity", b =>
@@ -295,7 +441,7 @@ namespace Microform.Functions.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PaymentRequestStatusEntity");
+                    b.ToTable("PaymentRequestStatus");
                 });
 
             modelBuilder.Entity("Microform.Functions.Data.Entities.PaymentRequestTypeEntity", b =>
@@ -315,26 +461,84 @@ namespace Microform.Functions.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PaymentRequestTypeEntity");
+                    b.ToTable("PaymentRequestType");
+                });
+
+            modelBuilder.Entity("Microform.Functions.Data.Entities.ApplicationPayerTokenEntity", b =>
+                {
+                    b.HasOne("Microform.Functions.Data.Entities.ApplicationPayerInfoEntity", "ApplicationPayerInfo")
+                        .WithMany()
+                        .HasForeignKey("ApplicationPayerInfoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microform.Functions.Data.Entities.ApplicationRequestEntity", b =>
                 {
-                    b.HasOne("Microform.Functions.Data.Entities.ApplicationInfoEntity", null)
+                    b.HasOne("Microform.Functions.Data.Entities.ApplicationInfoEntity", "ApplicationInfo")
                         .WithMany("ApplicationRequests")
-                        .HasForeignKey("ApplicationInfoEntityId");
-
-                    b.HasOne("Microform.Functions.Data.Entities.ApplicationLanguageEntity", null)
-                        .WithMany("ApplicationRequests")
-                        .HasForeignKey("ApplicationLanguageEntityId");
+                        .HasForeignKey("ApplicationInfoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Microform.Functions.Data.Entities.ApplicationPayerInfoEntity", "ApplicationPayerInfo")
                         .WithMany("ApplicationRequests")
-                        .HasForeignKey("ApplicationPayerInfoId");
+                        .HasForeignKey("ApplicationPayerInfoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("Microform.Functions.Data.Entities.LocationInfoEntity", null)
+                    b.HasOne("Microform.Functions.Data.Entities.ApplicationLanguageEntity", "Language")
                         .WithMany("ApplicationRequests")
-                        .HasForeignKey("LocationInfoEntityId");
+                        .HasForeignKey("LanguageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Microform.Functions.Data.Entities.LocationInfoEntity", "Location")
+                        .WithMany("ApplicationRequests")
+                        .HasForeignKey("LocationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microform.Functions.Data.Entities.ApplicationRequestResultEntity", b =>
+                {
+                    b.HasOne("Microform.Functions.Data.Entities.ApplicationRequestEntity", "ApplicationRequest")
+                        .WithMany()
+                        .HasForeignKey("ApplicationRequestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Microform.Functions.Data.Entities.ApplicationRequestStatusEntity", "ApplicationRequestStatus")
+                        .WithMany()
+                        .HasForeignKey("ApplicationRequestStatusId");
+                });
+
+            modelBuilder.Entity("Microform.Functions.Data.Entities.PaymentRequestEntity", b =>
+                {
+                    b.HasOne("Microform.Functions.Data.Entities.ApplicationRequestEntity", "ApplicationRequest")
+                        .WithMany()
+                        .HasForeignKey("ApplicationRequestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Microform.Functions.Data.Entities.PaymentRequestTypeEntity", "PaymentRequestType")
+                        .WithMany()
+                        .HasForeignKey("PaymentRequestTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microform.Functions.Data.Entities.PaymentRequestResultEntity", b =>
+                {
+                    b.HasOne("Microform.Functions.Data.Entities.PaymentRequestEntity", "PaymentRequest")
+                        .WithMany()
+                        .HasForeignKey("PaymentRequestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Microform.Functions.Data.Entities.PaymentRequestStatusEntity", "PaymentRequestStatus")
+                        .WithMany()
+                        .HasForeignKey("PaymentRequestStatusId");
                 });
 #pragma warning restore 612, 618
         }

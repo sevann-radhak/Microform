@@ -8,10 +8,13 @@ namespace Microform.Functions.Data.EntityConfiguration
     {
         public void Configure(EntityTypeBuilder<PaymentRequestEntity> builder)
         {
+            builder.ToTable("PaymentRequest");
+
             builder.HasKey(x => x.Id);
             builder.HasOne(x => x.ApplicationRequest).WithMany();
             builder.HasOne(x => x.PaymentRequestType).WithMany();
             builder.Property(x => x.ApplicationRequestId).IsRequired();
+            builder.Property(x => x.PaymentRequestTypeId).IsRequired();
         }
     }
 }

@@ -8,6 +8,8 @@ namespace Microform.Functions.Data.EntityConfiguration
     {
         public void Configure(EntityTypeBuilder<ApplicationInfoEntity> builder)
         {
+            builder.ToTable("ApplicationInfo");
+
             builder.HasKey(x => x.Id);
             builder.Property(x => x.ApplicationKey).HasMaxLength(100).IsRequired();
             builder.Property(x => x.ApplicationName).HasMaxLength(450).IsRequired();

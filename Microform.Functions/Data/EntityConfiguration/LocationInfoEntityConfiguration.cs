@@ -8,6 +8,8 @@ namespace Microform.Functions.Data.EntityConfiguration
     {
         public void Configure(EntityTypeBuilder<LocationInfoEntity> builder)
         {
+            builder.ToTable("LocationInfo");
+
             builder.HasKey(x => x.Id);
             builder.Property(x => x.LocationId).HasMaxLength(100).IsRequired();
             builder.Property(x => x.LocationName).HasMaxLength(100);

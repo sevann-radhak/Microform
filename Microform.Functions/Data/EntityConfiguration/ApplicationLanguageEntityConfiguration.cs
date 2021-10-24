@@ -8,6 +8,8 @@ namespace Microform.Functions.Data.EntityConfiguration
     {
         public void Configure(EntityTypeBuilder<ApplicationLanguageEntity> builder)
         {
+            builder.ToTable("ApplicationLanguage");
+
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Language).HasMaxLength(100).IsRequired();
         }

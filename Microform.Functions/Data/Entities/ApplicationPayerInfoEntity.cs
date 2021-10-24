@@ -6,7 +6,7 @@ namespace Microform.Functions.Data.Entities
     public class ApplicationPayerInfoEntity
     {
         public int Id { get; set; }
-        public DateTime CreatedTime { get; set; }
+        public DateTime CreatedUtcTime { get; set; }
 
         //TODO:
         // complete entity

@@ -7,8 +7,6 @@ namespace Microform.Functions.Data.EntityConfiguration
 {
     public class ApplicationRequestEntityConfiguration : IEntityTypeConfiguration<ApplicationRequestEntity>
     {
-        
-
         public void Configure(EntityTypeBuilder<ApplicationRequestEntity> builder)
         {
             builder.ToTable("ApplicationRequest");

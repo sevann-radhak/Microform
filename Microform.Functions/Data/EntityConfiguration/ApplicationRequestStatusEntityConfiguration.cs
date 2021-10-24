@@ -8,6 +8,8 @@ namespace Microform.Functions.Data.EntityConfiguration
     {
         public void Configure(EntityTypeBuilder<ApplicationRequestStatusEntity> builder)
         {
+            builder.ToTable("ApplicationRequestStatus");
+
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Status).HasMaxLength(100).IsRequired();
         }

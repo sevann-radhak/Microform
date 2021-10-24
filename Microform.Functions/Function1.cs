@@ -7,6 +7,7 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Microform.Functions.Helpers;
 
 namespace Microform.Functions
 {
@@ -18,6 +19,10 @@ namespace Microform.Functions
             ILogger log)
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
+            var variables = Environment.GetEnvironmentVariables();
+            var connectionString = Environment.GetEnvironmentVariable(MicroformConstants.SQL_CONNECTION_STRING);
+
+            var a = Environment.GetEnvironmentVariable(MicroformConstants.SQL_CONNECTION_STRING, EnvironmentVariableTarget.Process);
 
             string name = req.Query["name"];
 

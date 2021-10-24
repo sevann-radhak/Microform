@@ -1,5 +1,4 @@
-﻿using Microform.Functions.Data.Entities;
-using Microform.Functions.Helpers;
+﻿using Microform.Functions.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using System;
@@ -13,19 +12,7 @@ namespace Microform.Functions.Data
 
         }
 
-        public DbSet<ApplicationLanguageEntity> ApplicationLanguageEntity { get; set; }
-
-        public class FunctionContextFactory : IDesignTimeDbContextFactory<MicroformContext>
-        {
-            public MicroformContext CreateDbContext(string[] args)
-            {
-                DbContextOptionsBuilder<MicroformContext> optionsBuilder = new DbContextOptionsBuilder<MicroformContext>();
-                optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=MicroformDataBase;Trusted_Connection=True;MultipleActiveResultSets=true");
-                //Environment.GetEnvironmentVariable(MicroformConstants.SQL_CONNECTION_STRING, EnvironmentVariableTarget.Process));
-
-                return new MicroformContext(optionsBuilder.Options);
-            }
-        }
+        //public DbSet<ApplicationLanguageEntity> ApplicationLanguageEntity { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -35,6 +22,19 @@ namespace Microform.Functions.Data
             //    .Entity<ApplicationRequestEntity>()
             //    .HasOne(p => p.ApplicationInfo)
             //    .WithMany(b => b.ApplicationRequests);
+        }
+    }
+
+    public class FunctionContextFactory : IDesignTimeDbContextFactory<MicroformContext>
+    {
+        public MicroformContext CreateDbContext(string[] args)
+        {
+            DbContextOptionsBuilder<MicroformContext> optionsBuilder = new DbContextOptionsBuilder<MicroformContext>();
+            optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=MicroformDataBase;Trusted_Connection=True;MultipleActiveResultSets=true");
+            //optionsBuilder.UseSqlServer(Environment.GetEnvironmentVariable(MicroformConstants.SQL_CONNECTION_STRING, EnvironmentVariableTarget.Process));
+            
+
+            return new MicroformContext(optionsBuilder.Options);
         }
     }
 }
