@@ -142,7 +142,7 @@ namespace Microform.Functions.Migrations
                     b.Property<DateTime>("CreatedUtcTime")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2021, 10, 24, 1, 13, 6, 222, DateTimeKind.Utc).AddTicks(8215));
+                        .HasDefaultValue(new DateTime(2021, 10, 26, 16, 38, 53, 511, DateTimeKind.Utc).AddTicks(1942));
 
                     b.Property<int>("LanguageId")
                         .HasColumnType("int");
@@ -202,7 +202,7 @@ namespace Microform.Functions.Migrations
                     b.Property<DateTime>("CreatedUtcTime")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2021, 10, 24, 1, 13, 6, 232, DateTimeKind.Utc).AddTicks(5156));
+                        .HasDefaultValue(new DateTime(2021, 10, 26, 16, 38, 53, 522, DateTimeKind.Utc).AddTicks(4204));
 
                     b.Property<int>("ReturnDesicion")
                         .HasColumnType("int")

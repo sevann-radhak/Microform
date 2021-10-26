@@ -1,7 +1,8 @@
 ﻿using Microform.Functions.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-using System;
+using Microsoft.Extensions.Configuration;
+using System.IO;
 
 namespace Microform.Functions.Data
 {
@@ -12,16 +13,9 @@ namespace Microform.Functions.Data
 
         }
 
-        //public DbSet<ApplicationLanguageEntity> ApplicationLanguageEntity { get; set; }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(MicroformContext).Assembly);
-
-            //modelBuilder
-            //    .Entity<ApplicationRequestEntity>()
-            //    .HasOne(p => p.ApplicationInfo)
-            //    .WithMany(b => b.ApplicationRequests);
         }
     }
 
@@ -29,10 +23,19 @@ namespace Microform.Functions.Data
     {
         public MicroformContext CreateDbContext(string[] args)
         {
+            // Setup config
+            IConfigurationRoot config = new ConfigurationBuilder()
+                .SetBasePath(Path.Combine(Directory.GetCurrentDirectory()))
+                .AddJsonFile($"{MicroformConstants.LOCAL_SETTINGS}.json", optional: true, reloadOnChange: true)
+                .AddEnvironmentVariables()
+                .Build();
+
+            // Get connection string from config
+            string connectionString = config
+                .GetValue<string>($"{MicroformConstants.VALUES}:{MicroformConstants.SQL_CONNECTION_STRING}");
+
             DbContextOptionsBuilder<MicroformContext> optionsBuilder = new DbContextOptionsBuilder<MicroformContext>();
-            optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=MicroformDataBase;Trusted_Connection=True;MultipleActiveResultSets=true");
-            //optionsBuilder.UseSqlServer(Environment.GetEnvironmentVariable(MicroformConstants.SQL_CONNECTION_STRING, EnvironmentVariableTarget.Process));
-            
+            optionsBuilder.UseSqlServer(connectionString);
 
             return new MicroformContext(optionsBuilder.Options);
         }

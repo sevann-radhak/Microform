@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Microform.Functions.Migrations
 {
-    public partial class FirstMigration : Migration
+    public partial class firstmigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -182,7 +182,7 @@ namespace Microform.Functions.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ApplicationInfoId = table.Column<int>(nullable: false),
                     ApplicationPayerInfoId = table.Column<int>(nullable: false),
-                    CreatedUtcTime = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2021, 10, 24, 0, 9, 45, 872, DateTimeKind.Utc).AddTicks(5915)),
+                    CreatedUtcTime = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2021, 10, 26, 16, 38, 53, 511, DateTimeKind.Utc).AddTicks(1942)),
                     LanguageId = table.Column<int>(nullable: false),
                     LocationId = table.Column<int>(nullable: false),
                     MerchantId = table.Column<string>(maxLength: 100, nullable: false),
@@ -227,7 +227,7 @@ namespace Microform.Functions.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ApplicationRequestId = table.Column<int>(nullable: false),
-                    CreatedUtcTime = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2021, 10, 24, 0, 9, 45, 880, DateTimeKind.Utc).AddTicks(3797)),
+                    CreatedUtcTime = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2021, 10, 26, 16, 38, 53, 522, DateTimeKind.Utc).AddTicks(4204)),
                     ReturnDesicion = table.Column<int>(maxLength: 1000, nullable: false),
                     StatusId = table.Column<int>(nullable: false),
                     ApplicationRequestStatusId = table.Column<int>(nullable: true)
